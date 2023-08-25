@@ -1,0 +1,97 @@
+:root {
+    --default-gap: 20px;
+}
+
+/* layout */
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body > div {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.game-content {
+    flex: 1;
+}
+
+.header,
+.footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: var(--default-gap);
+}
+
+.footer {
+    gap: 10px;
+    padding: 5px 0;
+}
+
+.header > div {
+    width: clamp(200px, 100%, 900px);
+    display: flex;
+    justify-content: space-between;
+}
+
+.game-content {
+    align-self: center;
+    padding: var(--default-gap);
+    width: min(90%, 900px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    gap: var(--default-gap);
+    align-items: center;
+}
+
+.game-content .game-status {
+    flex-basis: 20%;
+    padding: var(--default-gap);
+    display: flex;
+    align-items: center;
+}
+
+#game-board {
+    flex: none;
+    aspect-ratio: 1/1;
+    width: 90%;
+    height: auto;
+    align-self: center;
+    vertical-align: middle;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    gap: var(--default-gap)
+}
+
+#game-board div {
+    flex: 1;
+    display: flex;
+    justify-content: space-around;
+    gap: var(--default-gap);
+}
+
+button {
+    flex: 1;
+}
+
+@media only screen and (min-width: 900px) {
+    #game-board {
+        flex: 1;
+        width: auto;
+    }
+}
+
+/* styles */
+.header {
+    background-color:wheat;
+}
+
+.footer  {
+    background-color: gray;
+}
