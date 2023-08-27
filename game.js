@@ -8,7 +8,7 @@ const Player = (playerName, marker) => {
 };
 
 const Card = () => {
-    let value = 'v';
+    let value;
     const getValue = () => value;
     const updateValue = (player) => {
         value = player.getMarker()
@@ -21,18 +21,24 @@ const Card = () => {
 
 const gameBoard = () => {
     const gameBoard = [];
+
     const getBoard = () => gameBoard;
-    const makeBoard = () => {
-        for (let i = 0; i < 3; i++) {
-            gameBoard[i] = [];
-            for (let j = 0; j < 3; j++) {
-                gameBoard[i].push(Card())
-            }
-        }
+    const getEmptyCards = () => gameBoard.filter((card) => (!card.getValue()));
+    const updateBoard = (index, currentPlayer) => gameBoard[index].updateValue(currentPlayer);
+
+    const getWinner = () => {
+        //
     }
-    makeBoard();
+
+    for (let i = 0; i < 9; i++) {
+        gameBoard[i] = Card();
+    }
+
     return {
-        getBoard
+        getBoard,
+        getEmptyCards,
+        getWinner,
+        updateBoard
     }
 };
 
