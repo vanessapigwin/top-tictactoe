@@ -15,10 +15,9 @@ const gameController = () => {
     }
 
     const playRound = (index) => {
+        console.log(board.getWinner())
         // check first if the board is empty or a winner exists
-        if (board.getEmptyCards().length > 2) {
-            board.updateBoard(index, currentPlayer);
-        }
+        board.updateBoard(index, currentPlayer);
         switchPlayer();
     }
 
