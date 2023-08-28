@@ -1,10 +1,16 @@
 const gameController = () => {
-    let player1 = Player('winwin', 'x');
-    let player2 = Player('Bart', 'o');
-    let currentPlayer = player1;
+    let player1;
+    let player2;
+    let currentPlayer;
     let inactivePlayer;
 
     const board = gameBoard();
+
+    const createPlayers = (name1, name2) => {
+        player1 = Player(name1, 'x');
+        player2 = Player(name2, 'o');
+        currentPlayer = player1;
+    }
 
     const getCurrentPlayer = () => currentPlayer;
     const getInactivePlayer = () => inactivePlayer;
@@ -23,6 +29,7 @@ const gameController = () => {
     }
 
     return {
+        createPlayers,
         getWinner,
         getCurrentPlayer,
         getInactivePlayer,
@@ -45,9 +52,15 @@ const displayController = (()=> {
         startButton.addEventListener('click', displayGame);
     }
 
-    const displayGame = () => {
+    const displayGame = (e) => {
+        const formElement = document.querySelector('form'); 
+        const data = new FormData(formElement);
+        const [playerName1, playerName2] = Array.from(data).map(entry => entry[1]);
+        game.createPlayers(playerName1, playerName2);
         modal.classList.toggle('inactive-screen');
         gameScreen.classList.toggle('inactive-screen');
+        updateDisplay();
+        e.preventDefault();
     };
 
     const assignLocations = () => {
@@ -56,27 +69,30 @@ const displayController = (()=> {
         }
     }
 
-    const updateDisplay = (index) => {
-        statusDisplay.textContent = `${game.getCurrentPlayer().getName()}'s turn`;
+    const updateDisplay = (index, winner) => {
         if (index !== undefined) {
             gameAreaButtons[index].textContent = game.getInactivePlayer().getMarker();
         }
+
+        const statusText = (winner === undefined) ?
+            `${game.getCurrentPlayer().getName()}'s turn`:
+            `${game.getInactivePlayer().getName()}' wins!`;
+
+        statusDisplay.textContent = statusText;
     }
 
     const watchEvents = (e) => {
-        if (e.target.dataset && game.getWinner() === undefined) {
+        let winner;
+        if (e.target.dataset &&  winner === undefined) {
             let index = Number(e.target.dataset.index);
             game.playRound(index);
-            updateDisplay(index);
-        } else {
-            statusDisplay.textContent = `${game.getInactivePlayer().getName()} wins!`
-        }
-        
+            winner = game.getWinner();
+            updateDisplay(index, winner);
+        } 
     }
     
     initGame();
     assignLocations();
-    updateDisplay();
     gameAreaButtons.forEach((button) => button.addEventListener('click', watchEvents, {once: true}))
 
 })();

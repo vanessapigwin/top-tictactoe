@@ -10,7 +10,19 @@
 </head>
 <body>
     <div class="my-modal">
-        <button class="modal-content">Start Game</button>
+        <form class="modal-content">
+            <div class="form-row">Tic Tac Toe</div>
+            <div class="form-row">
+                <label for="player-name1">Player X</label>
+                <input type="text" name="player-name1" id="player1">
+            </div>
+            <div class="form-row">vs.</div>
+            <div class="form-row">
+                <label for="player-name2">Player O</label>
+                <input type="text" name="player-name2" id="player2">
+            </div>
+            <button >Start Game</button>
+        </form>
     </div>
     <div class="content" id="game-screen">
         <div class="header">
