@@ -52,7 +52,9 @@ const displayController = (()=> {
         const formElement = document.querySelector('form'); 
         const data = new FormData(formElement);
         const [playerName1, playerName2] = Array.from(data).map(entry => entry[1]);
+
         game.createPlayers(playerName1, playerName2);
+        
         modal.classList.toggle('inactive-screen');
         gameScreen.classList.toggle('inactive-screen');
         updateDisplay();
@@ -66,6 +68,7 @@ const displayController = (()=> {
     }
 
     const updateDisplay = (index) => {
+        let winner;
         statusDisplay.textContent = `${game.getCurrentPlayer().getName()}'s turn`;
         if (index !== undefined) {
             gameAreaButtons[index].textContent = game.getInactivePlayer().getMarker();
