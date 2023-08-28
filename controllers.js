@@ -25,8 +25,6 @@ const gameController = () => {
     const resetBoard = () => board.createBoard()
 
     return {
-        createPlayers,
-        getWinner,
         getCurrentPlayer,
         getInactivePlayer,
         getWinner,
@@ -54,9 +52,13 @@ const displayController = (()=> {
         const formElement = document.querySelector('form'); 
         const data = new FormData(formElement);
         const [playerName1, playerName2] = Array.from(data).map(entry => entry[1]);
+
         game.createPlayers(playerName1, playerName2);
+        
         modal.classList.toggle('inactive-screen');
         gameScreen.classList.toggle('inactive-screen');
+        // updateDisplay();
+        e.preventDefault();
     };
 
     const assignLocations = () => {
@@ -65,14 +67,23 @@ const displayController = (()=> {
         }
     }
 
-    const updateDisplay = (index, winner) => {
+    const updateDisplay = (index) => {
+        let winner;
+        statusDisplay.textContent = `${game.getCurrentPlayer().getName()}'s turn`;
         if (index !== undefined) {
             gameAreaButtons[index].textContent = game.getInactivePlayer().getMarker();
         }
+
+        const statusText = (winner === undefined) ?
+            `${game.getCurrentPlayer().getName()}'s turn`:
+            `${game.getInactivePlayer().getName()}' wins!`;
+
+        statusDisplay.textContent = statusText;
     }
 
     const watchEvents = (e) => {
-        if (e.target.dataset && game.getWinner() === undefined) {
+        let winner;
+        if (e.target.dataset &&  winner === undefined) {
             let index = Number(e.target.dataset.index);
             game.playRound(index);
             updateDisplay(index);
