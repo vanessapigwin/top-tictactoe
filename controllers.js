@@ -1,16 +1,10 @@
 const gameController = () => {
-    let player1;
-    let player2;
-    let currentPlayer;
+    let player1 = Player('winwin', 'x');
+    let player2 = Player('Bart', 'o');
+    let currentPlayer = player1;
     let inactivePlayer;
 
     const board = gameBoard();
-
-    const createPlayers = (name1, name2) => {
-        player1 = Player(name1, 'x');
-        player2 = Player(name2, 'o');
-        currentPlayer = player1;
-    }
 
     const getCurrentPlayer = () => currentPlayer;
     const getInactivePlayer = () => inactivePlayer;
@@ -31,7 +25,6 @@ const gameController = () => {
     const resetBoard = () => board.createBoard()
 
     return {
-        createPlayers,
         getCurrentPlayer,
         getInactivePlayer,
         getWinner,
@@ -59,14 +52,9 @@ const displayController = (()=> {
         const formElement = document.querySelector('form'); 
         const data = new FormData(formElement);
         const [playerName1, playerName2] = Array.from(data).map(entry => entry[1]);
-
-        game.resetBoard();
-        gameAreaButtons.forEach(button => button.textContent = '')
         game.createPlayers(playerName1, playerName2);
-
         modal.classList.toggle('inactive-screen');
         gameScreen.classList.toggle('inactive-screen');
-
         updateDisplay();
         e.preventDefault();
     };
@@ -77,32 +65,34 @@ const displayController = (()=> {
         }
     }
 
-    const updateDisplay = (index, winner) => {
+    const updateDisplay = (index) => {
+        statusDisplay.textContent = `${game.getCurrentPlayer().getName()}'s turn`;
         if (index !== undefined) {
             gameAreaButtons[index].textContent = game.getInactivePlayer().getMarker();
         }
 
         const statusText = (winner === undefined) ?
             `${game.getCurrentPlayer().getName()}'s turn`:
-            `${game.getInactivePlayer().getName()} wins!`;
-        statusDisplay.textContent = statusText;
+            `${game.getInactivePlayer().getName()}' wins!`;
 
-        if (winner)
-            gameAreaButtons.forEach(button => button.removeEventListener('click', watchEvents))
+        statusDisplay.textContent = statusText;
     }
 
     const watchEvents = (e) => {
         let winner;
-        if (e.target.dataset && (!winner)) {
+        if (e.target.dataset &&  winner === undefined) {
             let index = Number(e.target.dataset.index);
             game.playRound(index);
-            winner = game.getWinner();
-            updateDisplay(index, winner);
-        } 
+            updateDisplay(index);
+        } else {
+            statusDisplay.textContent = `${game.getInactivePlayer().getName()} wins!`
+        }
+        
     }
     
     initGame();
     assignLocations();
+    updateDisplay();
     gameAreaButtons.forEach((button) => button.addEventListener('click', watchEvents, {once: true}))
     document.querySelector('#restart').addEventListener('click', displayGame);
 })();
