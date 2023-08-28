@@ -65,15 +65,18 @@ const gameBoard = () => {
         }
     }
 
-    for (let i = 0; i < 9; i++) {
-        gameBoard[i] = Card();
+    const createBoard = () => {
+        for (let i = 0; i < 9; i++) {
+            gameBoard[i] = Card();
+        }
     }
 
     return {
         getBoard,
         getEmptyCards,
         getWinner,
-        updateBoard
+        updateBoard,
+        createBoard
     }
 };
 

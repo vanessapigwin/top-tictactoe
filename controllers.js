@@ -28,13 +28,16 @@ const gameController = () => {
         }
     }
 
+    const resetBoard = () => board.createBoard()
+
     return {
         createPlayers,
-        getWinner,
         getCurrentPlayer,
         getInactivePlayer,
-        playRound,
+        getWinner,
         switchPlayer,
+        playRound,
+        resetBoard,
     }
 }
 
@@ -56,9 +59,14 @@ const displayController = (()=> {
         const formElement = document.querySelector('form'); 
         const data = new FormData(formElement);
         const [playerName1, playerName2] = Array.from(data).map(entry => entry[1]);
+
+        game.resetBoard();
+        gameAreaButtons.forEach(button => button.textContent = '')
         game.createPlayers(playerName1, playerName2);
+
         modal.classList.toggle('inactive-screen');
         gameScreen.classList.toggle('inactive-screen');
+
         updateDisplay();
         e.preventDefault();
     };
@@ -76,14 +84,16 @@ const displayController = (()=> {
 
         const statusText = (winner === undefined) ?
             `${game.getCurrentPlayer().getName()}'s turn`:
-            `${game.getInactivePlayer().getName()}' wins!`;
-
+            `${game.getInactivePlayer().getName()} wins!`;
         statusDisplay.textContent = statusText;
+
+        if (winner)
+            gameAreaButtons.forEach(button => button.removeEventListener('click', watchEvents))
     }
 
     const watchEvents = (e) => {
         let winner;
-        if (e.target.dataset &&  winner === undefined) {
+        if (e.target.dataset && (!winner)) {
             let index = Number(e.target.dataset.index);
             game.playRound(index);
             winner = game.getWinner();
@@ -94,5 +104,5 @@ const displayController = (()=> {
     initGame();
     assignLocations();
     gameAreaButtons.forEach((button) => button.addEventListener('click', watchEvents, {once: true}))
-
+    document.querySelector('#restart').addEventListener('click', displayGame);
 })();
