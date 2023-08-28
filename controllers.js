@@ -28,6 +28,11 @@ const gameController = () => {
         }
     }
 
+    const resetGame = () => {
+        currentPlayer = player1;
+        board.resetBoard();
+    };
+
     return {
         createPlayers,
         getCurrentPlayer,
@@ -35,6 +40,7 @@ const gameController = () => {
         getWinner,
         switchPlayer,
         playRound,
+        resetGame
     }
 }
 
@@ -61,8 +67,9 @@ const displayController = (()=> {
         
         modal.classList.toggle('inactive-screen');
         gameScreen.classList.toggle('inactive-screen');
-        document.querySelector('#restart').addEventListener('click', resetGame);
+        gameScreen.querySelector('#restart').addEventListener('click', resetGame);
         gameAreaButtons.forEach((button) => button.addEventListener('click', watchEvents, {once: true}));
+
         assignLocations();
         updateDisplay();
 
@@ -81,9 +88,18 @@ const displayController = (()=> {
             gameAreaButtons[index].textContent = game.getInactivePlayer().getMarker();
         }
 
-        const statusText = (winner === undefined) ?
-            `${game.getCurrentPlayer().getName()}'s turn`:
-            `${game.getInactivePlayer().getName()} wins!`;
+        let statusText;
+
+        if (winner === undefined) {
+            statusText = `${game.getCurrentPlayer().getName()}'s turn`;
+        }
+        else if (winner === 'tie') {
+            statusText = 'It\'s a tie!';
+        }
+        else {
+            statusText = `${game.getInactivePlayer().getName()} wins!`
+        }
+
 
         statusDisplay.textContent = statusText;
     }
@@ -97,14 +113,15 @@ const displayController = (()=> {
             updateDisplay(index, winner);
         } 
         if (winner) {
-            gameAreaButtons.forEach((button) => button.removeEventListener('click', watchEvents))
+            gameAreaButtons.forEach((button) => button.removeEventListener('click', watchEvents));
         }
     }
 
     const resetGame = () => {
-        gameAreaButtons.forEach((button) => button.addEventListener('click', watchEvents, {once: true}))
+        gameAreaButtons.forEach((button) => button.addEventListener('click', watchEvents, {once: true}));
         gameAreaButtons.forEach(button => button.textContent = '');
-        statusDisplay.textContent = `${game.getCurrentPlayer().getName()}'s turn`;
+        game.resetGame();
+        updateDisplay();
     }
     
     initGame();
