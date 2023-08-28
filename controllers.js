@@ -8,6 +8,7 @@ const gameController = () => {
 
     const getCurrentPlayer = () => currentPlayer;
     const getInactivePlayer = () => inactivePlayer;
+    const getWinner = () => board.getWinner();
 
     const switchPlayer = () => {
         inactivePlayer = currentPlayer;
@@ -15,17 +16,18 @@ const gameController = () => {
     }
 
     const playRound = (index) => {
-        console.log(board.getWinner())
-        // check first if the board is empty or a winner exists
-        board.updateBoard(index, currentPlayer);
-        switchPlayer();
+        if (getWinner() === undefined) {
+            board.updateBoard(index, currentPlayer);
+            switchPlayer();
+        }
     }
 
     return {
+        getWinner,
         getCurrentPlayer,
         getInactivePlayer,
         playRound,
-        switchPlayer
+        switchPlayer,
     }
 }
 
@@ -35,6 +37,7 @@ const displayController = (()=> {
     const modal = document.querySelector('.my-modal');
     const gameScreen = document.querySelector('#game-screen');
     const gameAreaButtons = gameScreen.querySelectorAll('button');
+    const statusDisplay  = gameScreen.querySelector('.game-status');
 
     const initGame = () => {
         const startButton = modal.querySelector('button');
@@ -54,7 +57,6 @@ const displayController = (()=> {
     }
 
     const updateDisplay = (index) => {
-        const statusDisplay  = gameScreen.querySelector('.game-status');
         statusDisplay.textContent = `${game.getCurrentPlayer().getName()}'s turn`;
         if (index !== undefined) {
             gameAreaButtons[index].textContent = game.getInactivePlayer().getMarker();
@@ -62,15 +64,19 @@ const displayController = (()=> {
     }
 
     const watchEvents = (e) => {
-        if (e.target.dataset) {
+        if (e.target.dataset && game.getWinner() === undefined) {
             let index = Number(e.target.dataset.index);
             game.playRound(index);
             updateDisplay(index);
+        } else {
+            statusDisplay.textContent = `${game.getInactivePlayer().getName()} wins!`
         }
+        
     }
     
     initGame();
     assignLocations();
     updateDisplay();
     gameAreaButtons.forEach((button) => button.addEventListener('click', watchEvents, {once: true}))
+
 })();

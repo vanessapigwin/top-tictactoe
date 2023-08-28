@@ -35,14 +35,33 @@ const gameBoard = () => {
         }
         else {
             let winner;
-            const row1 = [gameBoard[0], gameBoard[1], gameBoard[2]].map(card => card.getValue());
-            const row2 = [gameBoard[3], gameBoard[4], gameBoard[5]].map(card => card.getValue());
-            const row3 = [gameBoard[6], gameBoard[7], gameBoard[8]].map(card => card.getValue());
-            const col1 = [gameBoard[0], gameBoard[3], gameBoard[6]].map(card => card.getValue());
-            const col2 = [gameBoard[1], gameBoard[4], gameBoard[7]].map(card => card.getValue());
-            const col3 = [gameBoard[2], gameBoard[5], gameBoard[8]].map(card => card.getValue());
+            const tests = [];
+
+            // diags for testing
             const diag1 = [gameBoard[0], gameBoard[4], gameBoard[8]].map(card => card.getValue());
             const diag2 = [gameBoard[2], gameBoard[4], gameBoard[6]].map(card => card.getValue());
+            tests.push(diag1);
+            tests.push(diag2);
+
+            // rows for testing
+            for (let i = 0; i < 3; i++) {
+                const rowArr = [];
+                const colArr = [];
+                for (let j = 0; j < 3; j++) {
+                    rowArr.push(gameBoard[3 * i + j].getValue());
+                    colArr.push(gameBoard[3 * j + i].getValue());
+                }
+                tests.push(rowArr);
+                tests.push(colArr);
+            }
+            
+            for (let test of tests) {
+                if (test[0] === test[1] && test[1] === test[2] && test[0] !== undefined) {
+                    winner = test[0];
+                    break;
+                }
+            }
+            return winner;
         }
     }
 
