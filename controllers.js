@@ -40,7 +40,7 @@ const gameController = () => {
 
 const displayController = (()=> {
 
-    const game = gameController();
+    let game = gameController();
     const modal = document.querySelector('.my-modal');
     const gameScreen = document.querySelector('#game-screen');
     const gameAreaButtons = gameScreen.querySelectorAll('button');
@@ -61,7 +61,11 @@ const displayController = (()=> {
         
         modal.classList.toggle('inactive-screen');
         gameScreen.classList.toggle('inactive-screen');
+        document.querySelector('#restart').addEventListener('click', resetGame);
+        gameAreaButtons.forEach((button) => button.addEventListener('click', watchEvents, {once: true}));
+        assignLocations();
         updateDisplay();
+
         e.preventDefault();
     };
 
@@ -91,11 +95,17 @@ const displayController = (()=> {
             game.playRound(index);
             winner = game.getWinner();
             updateDisplay(index, winner);
+        } 
+        if (winner) {
+            gameAreaButtons.forEach((button) => button.removeEventListener('click', watchEvents))
         }
+    }
+
+    const resetGame = () => {
+        gameAreaButtons.forEach((button) => button.addEventListener('click', watchEvents, {once: true}))
+        gameAreaButtons.forEach(button => button.textContent = '');
+        statusDisplay.textContent = `${game.getCurrentPlayer().getName()}'s turn`;
     }
     
     initGame();
-    assignLocations();
-    gameAreaButtons.forEach((button) => button.addEventListener('click', watchEvents, {once: true}))
-    // document.querySelector('#restart').addEventListener('click', displayGame);
 })();
