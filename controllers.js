@@ -127,7 +127,10 @@ const displayController = (()=> {
 
     const resetGame = () => {
         gameAreaButtons.forEach((button) => button.addEventListener('click', watchEvents, {once: true}));
-        gameAreaButtons.forEach(button => button.textContent = '');
+        gameAreaButtons.forEach(button => {
+            button.textContent = ''
+            button.style.backgroundColor = '#eee';
+        });
         game.resetGame();
         updateDisplay();
     }
