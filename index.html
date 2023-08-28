@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tic-Tac-Toe</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded" />
     <script src="game.js" defer></script>
     <script src="controllers.js" defer></script>
 </head>
@@ -14,12 +17,12 @@
             <div class="form-row">Tic Tac Toe</div>
             <div class="form-row">
                 <label for="player-name1">Player X</label>
-                <input type="text" name="player-name1" id="player1" value="Player1">
+                <input type="text" name="player-name1" id="player1" value="Player 1">
             </div>
             <div class="form-row">vs.</div>
             <div class="form-row">
                 <label for="player-name2">Player O</label>
-                <input type="text" name="player-name2" id="player2" value="Player2">
+                <input type="text" name="player-name2" id="player2" value="Player 2">
             </div>
             <button >Start Game</button>
         </form>
@@ -28,7 +31,9 @@
         <div class="header">
             <div>
                 <div class="header logo">Tic Tac Toe</div>
-                <div class="header button" id="restart">Restart</div>
+                <div class="header button" id="restart">
+                    <span class="material-icons md-dark">refresh</span>
+                </div>
             </div>
         </div>
         <div class="game-content">

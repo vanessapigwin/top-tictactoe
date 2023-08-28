@@ -7,8 +7,8 @@ const gameController = () => {
     const board = gameBoard();
 
     const createPlayers = (name1, name2) => {
-        player1 = Player(name1, 'x');
-        player2 = Player(name2, 'o');
+        player1 = Player(name1, 'close', '#2ec4b6');
+        player2 = Player(name2, 'circle', '#EF767A');
         currentPlayer = player1;
     }
     const getCurrentPlayer = () => currentPlayer;
@@ -84,8 +84,15 @@ const displayController = (()=> {
 
     const updateDisplay = (index, winner) => {
         statusDisplay.textContent = `${game.getCurrentPlayer().getName()}'s turn`;
+        statusDisplay.style.color = game.getCurrentPlayer().getColor();
+        const content = document.createElement('span');
         if (index !== undefined) {
-            gameAreaButtons[index].textContent = game.getInactivePlayer().getMarker();
+            // svg or span via google?
+            content.classList.add('material-symbols-rounded');
+            content.style.color = game.getInactivePlayer().getColor();
+            content.textContent = textContent = game.getInactivePlayer().getMarker();
+            gameAreaButtons[index].style.backgroundColor = '#ddd';
+            gameAreaButtons[index].appendChild(content);
         }
 
         let statusText;
@@ -94,12 +101,13 @@ const displayController = (()=> {
             statusText = `${game.getCurrentPlayer().getName()}'s turn`;
         }
         else if (winner === 'tie') {
+            statusDisplay.style.color = '#363636';
             statusText = 'It\'s a tie!';
         }
         else {
+            statusDisplay.style.color = game.getInactivePlayer().getColor();
             statusText = `${game.getInactivePlayer().getName()} wins!`
         }
-
 
         statusDisplay.textContent = statusText;
     }

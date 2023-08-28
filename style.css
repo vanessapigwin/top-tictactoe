@@ -1,13 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=Gochi+Hand&family=Roboto&display=swap');
+
+
 :root {
     --default-gap: 20px;
+    --theme-white: #fdfffc;
+    --theme-black: #363636;
+    --color1: #ff9f1c;
+    --color2: #2ec4b6;
 }
 
 /* layout */
 * {
     margin: 0;
     padding: 0;
+    /* border: solid 1px rebeccapurple  */
 }
-
+ 
 body > div.my-modal {
     position: fixed;
     z-index: 1;
@@ -59,7 +67,7 @@ body > div.content {
     width: min(90%, 900px);
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
+    justify-content:flex-start;
     gap: var(--default-gap);
     align-items: center;
     overflow-y: auto;
@@ -112,15 +120,59 @@ button {
 }
 
 /* styles */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: var(--theme-white);
+    color: var(--theme-black);
+}
+
 .my-modal {
     background-color: steelblue;
 }
 
-
 .header {
-    background-color:wheat;
+    font-size: 2.2rem;
+    font-weight: bold;
+    font-family: 'Gochi Hand', cursive;
 }
 
-.footer  {
-    background-color: gray;
+.footer {
+    background-color: var(--theme-black);
+    color: var(--theme-white);
+}
+
+button {
+    border: none;
+}
+
+button:hover {
+    background-color: #ddd;
+}
+
+.game-status {
+    font-size: 1.8em;
+    font-weight: bold; 
+}
+
+/* google material icons */
+.material-icons.md-dark {
+    font-size: 40px;
+    color: rgba(0, 0, 0, 0.26); 
+    font-variation-settings:
+    'FILL' 0,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 24
+}
+
+.material-icons.md-dark:hover { color: rgba(0, 0, 0, 0.54); }
+
+.material-symbols-rounded {
+    font-size: 100%;
+    font-weight: bold;
+    font-variation-settings:
+    'FILL' 0,
+    'wght' 1200,
+    'GRAD' 0,
+    'opsz' 24
 }

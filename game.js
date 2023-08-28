@@ -1,9 +1,11 @@
-const Player = (playerName, marker) => {
+const Player = (playerName, marker, color) => {
     const getName = () => playerName;
     const getMarker = () => marker;
+    const getColor = () => color
     return {
         getName,
-        getMarker
+        getMarker,
+        getColor
     }
 };
 
