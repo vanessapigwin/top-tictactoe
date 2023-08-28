@@ -7,14 +7,19 @@ const gameController = () => {
     const board = gameBoard();
 
     const createPlayers = (name1, name2) => {
-        player1 = Player(name1, 'close', '#2ec4b6');
-        player2 = Player(name2, 'circle', '#EF767A');
+        player1 = Player(name1, 'x', '#2EC4B6');
+        player2 = Player(name2, 'o', '#EF767A');
         currentPlayer = player1;
     }
     const getCurrentPlayer = () => currentPlayer;
     const getInactivePlayer = () => inactivePlayer;
 
-    const getWinner = () => board.getWinner();
+    const getWinner = () => {
+        if (board.getEmptyCards().length !== 0)
+            return board.getWinner();
+        else;
+            return 'tie';
+    };
 
     const switchPlayer = () => {
         inactivePlayer = currentPlayer;
@@ -83,19 +88,16 @@ const displayController = (()=> {
     }
 
     const updateDisplay = (index, winner) => {
-        statusDisplay.textContent = `${game.getCurrentPlayer().getName()}'s turn`;
+        let statusText;
         statusDisplay.style.color = game.getCurrentPlayer().getColor();
-        const content = document.createElement('span');
+        const content = document.createElement('img');
+
         if (index !== undefined) {
-            // svg or span via google?
-            content.classList.add('material-symbols-rounded');
-            content.style.color = game.getInactivePlayer().getColor();
-            content.textContent = textContent = game.getInactivePlayer().getMarker();
-            gameAreaButtons[index].style.backgroundColor = '#ddd';
+            content.classList.add('card-img');
+            content.src = `./static/${game.getInactivePlayer().getMarker()}.svg`
+            gameAreaButtons[index].style.backgroundColor = game.getInactivePlayer().getColor();
             gameAreaButtons[index].appendChild(content);
         }
-
-        let statusText;
 
         if (winner === undefined) {
             statusText = `${game.getCurrentPlayer().getName()}'s turn`;

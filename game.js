@@ -29,10 +29,7 @@ const gameBoard = () => {
     const updateBoard = (index, currentPlayer) => gameBoard[index].updateValue(currentPlayer);
 
     const getWinner = () => {
-        if (getEmptyCards().length === 0) {
-            return 'tie'
-        }
-        else if (getEmptyCards === 9) {
+        if (getEmptyCards().length === 9) {
             return
         }
         else {
@@ -57,10 +54,13 @@ const gameBoard = () => {
                 tests.push(colArr);
             }
             
-            for (let test of tests) {
-                if (test[0] === test[1] && test[1] === test[2] && test[0] !== undefined) {
-                    winner = test[0];
-                    break;
+            // check all tests for a winner
+            if (tests) {
+                for (let test of tests) {
+                    if (test[0] === test[1] && test[1] === test[2] && test[0] !== undefined) {
+                        winner = test[0];
+                        break;
+                    }
                 }
             }
             return winner;
