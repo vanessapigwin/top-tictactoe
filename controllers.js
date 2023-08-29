@@ -17,7 +17,7 @@ const gameController = () => {
     const getWinner = () => {
         if (board.getEmptyCards().length !== 0)
             return board.getWinner();
-        else;
+        else
             return 'tie';
     };
 
@@ -55,7 +55,6 @@ const displayController = (()=> {
     const modal = document.querySelector('.my-modal');
     const gameScreen = document.querySelector('#game-screen');
     const gameAreaButtons = gameScreen.querySelectorAll('button');
-    const statusDisplay  = gameScreen.querySelector('.game-status');
 
     const initGame = () => {
         const startButton = modal.querySelector('button');
@@ -89,16 +88,19 @@ const displayController = (()=> {
 
     const updateDisplay = (index, winner) => {
         let statusText;
+        const statusDisplay  = gameScreen.querySelector('.game-status');
         statusDisplay.style.color = game.getCurrentPlayer().getColor();
-        const content = document.createElement('img');
-
+        
+        // add markers on screen
         if (index !== undefined) {
+            const content = document.createElement('img');
             content.classList.add('card-img');
             content.src = `./static/${game.getInactivePlayer().getMarker()}.svg`
             gameAreaButtons[index].style.backgroundColor = game.getInactivePlayer().getColor();
             gameAreaButtons[index].appendChild(content);
         }
 
+        // update message area
         if (winner === undefined) {
             statusText = `${game.getCurrentPlayer().getName()}'s turn`;
         }
@@ -110,7 +112,6 @@ const displayController = (()=> {
             statusDisplay.style.color = game.getInactivePlayer().getColor();
             statusText = `${game.getInactivePlayer().getName()} wins!`
         }
-
         statusDisplay.textContent = statusText;
     }
 
