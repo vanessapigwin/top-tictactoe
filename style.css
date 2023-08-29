@@ -13,7 +13,6 @@
 * {
     margin: 0;
     padding: 0;
-    /* border: solid 1px rebeccapurple  */
 }
  
 body > div.my-modal {
@@ -38,10 +37,16 @@ body > div.my-modal {
     align-items: center;
 }
 
-.modal-content > .form-row {
+.modal-content > div > .form-row,
+.modal-content > div {
     display: flex;
     flex-direction: column;
     align-items: center;
+    gap: var(--default-gap)
+}
+
+.modal-content > div > .form-row {
+    gap: 0;
 }
 
 body > div.content {
@@ -116,6 +121,16 @@ button {
 }
 
 @media only screen and (min-width: 900px) {
+    .my-modal > .modal-content > div {
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+        gap: calc(var(--default-gap)*2);
+    }
+
+    .my-modal > .modal-content {
+        gap: calc(var(--default-gap)*2);
+    }
 }
 
 /* toggles */
