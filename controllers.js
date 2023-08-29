@@ -39,6 +39,7 @@ const gameController = () => {
     };
 
     return {
+        board,
         createPlayers,
         getCurrentPlayer,
         getInactivePlayer,
@@ -123,6 +124,17 @@ const displayController = (()=> {
             game.playRound(index);
             winner = game.getWinner();
             updateDisplay(index, winner);
+
+            // AI
+            if (game.getCurrentPlayer().getMarker() === 'o' &&  winner === undefined) {
+                let compIndex = ai.findBestMove(
+                    game.board, 
+                    game.getCurrentPlayer(),
+                    game.getInactivePlayer(),
+                );
+                setTimeout(() => { gameAreaButtons[compIndex].click(); }, 500);
+            }
+            
         } 
         if (winner) {
             gameAreaButtons.forEach((button) => button.removeEventListener('click', watchEvents));
