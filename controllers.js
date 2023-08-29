@@ -8,7 +8,7 @@ const gameController = () => {
 
     const createPlayers = (name1, name2) => {
         player1 = Player(name1, 'x', '#2EC4B6');
-        player2 = Player(name2, 'o', '#EF767A');
+        player2 = Player(name2, 'o', '#4A8FE7');
         currentPlayer = player1;
     }
     const getCurrentPlayer = () => currentPlayer;
@@ -72,6 +72,7 @@ const displayController = (()=> {
         modal.classList.toggle('inactive-screen');
         gameScreen.classList.toggle('inactive-screen');
         gameScreen.querySelector('#restart').addEventListener('click', resetGame);
+        gameScreen.querySelector('.logo').addEventListener('click', () => window.location.reload());
         gameAreaButtons.forEach((button) => button.addEventListener('click', watchEvents, {once: true}));
 
         assignLocations();

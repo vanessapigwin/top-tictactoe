@@ -6,7 +6,7 @@
     --theme-white: #fdfffc;
     --theme-black: #363636;
     --color1: #2EC4B6;
-    --color2: #EF767A;
+    --color2: #4A8FE7
 }
 
 /* layout */
@@ -26,10 +26,22 @@ body > div.my-modal {
 }
 
 .my-modal > .modal-content {
+    width: clamp(270px, 80%, 1000px);
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+
+    display: flex;
+    flex-direction: column;
+    gap:var(--default-gap);
+    align-items: center;
+}
+
+.modal-content > .form-row {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 body > div.content {
@@ -64,7 +76,7 @@ body > div.content {
     width: min(80%, 900px);
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
+    justify-content: center;
     gap: var(--default-gap);
     align-items: center;
     overflow-y: auto;
@@ -104,17 +116,6 @@ button {
 }
 
 @media only screen and (min-width: 900px) {
-    #game-board {
-        flex: 1;
-        width: 90%;
-    }
-
-    .game-content .game-status {
-        flex-basis: 0 1 10%;
-        padding: var(--default-gap);
-        display: flex;
-        align-items: center;
-    }
 }
 
 /* toggles */
@@ -134,7 +135,8 @@ body {
     background-color: steelblue;
 }
 
-.header {
+.header,
+form > div:first-child {
     font-size: 2.2rem;
     font-weight: bold;
     font-family: 'Gochi Hand', cursive;
@@ -162,6 +164,17 @@ button:hover {
     transition: 0.5s ease-in-out;
 }
 
+.card-img {
+    height: 100%;
+    width: auto;
+    filter: invert(1);
+}
+
+.footer.icon > img {
+    height: 40px;
+    width: auto;
+}
+
 /* google material icons */
 .material-icons.md-dark {
     font-size: 40px;
@@ -173,24 +186,52 @@ button:hover {
     'opsz' 24
 }
 
+.logo,
 .material-icons.md-dark:hover { 
     color: var(--theme-black);
     cursor: pointer;
     transition: 0.5s ease-in-out;
  }
 
-.card-img {
-    height: 90%;
-    width: auto;
+ /* modal style */
+.my-modal {
+    background-color: var(--theme-white);
+}
+
+form {
+    font-size: 1.5em;
+}
+
+.form-row > label > img {
+    height: 200px;
     filter: invert(1);
 }
 
-.footer.icon > img {
-    height: 40px;
-    width: auto;
+.form-row > label[for='player-name1'] {
+    background-color: var(--color1);
 }
 
-.my-modal {
-    background-color: var(--theme-white);
-    color: var(--theme-black);
+.form-row > label[for='player-name2'] {
+    background-color: var(--color2);
+}
+
+.modal-content > button {
+    padding: 10px;
+    font-size: 0.8em;
+    width: 200px;
+    background-color: var(--theme-black);
+    color: var(--theme-white);
+}
+
+.modal-content > button:hover {
+    background-color: #525252;
+}
+
+.form-row > input {
+    width: 200px;
+    height: 30px;
+    border: solid 1px #eee;
+    text-align: center;
+    padding: 5px 0;
+    font-size: 20px;
 }
