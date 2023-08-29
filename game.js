@@ -1,11 +1,13 @@
-const Player = (playerName, marker, color) => {
+const Player = (playerName, marker, color, isHuman) => {
     const getName = () => playerName;
     const getMarker = () => marker;
-    const getColor = () => color
+    const getColor = () => color;
+    const getType = () => isHuman;
     return {
         getName,
         getMarker,
-        getColor
+        getColor,
+        isHuman,
     }
 };
 

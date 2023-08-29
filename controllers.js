@@ -6,9 +6,9 @@ const gameController = () => {
 
     const board = gameBoard();
 
-    const createPlayers = (name1, name2) => {
-        player1 = Player(name1, 'x', '#2EC4B6');
-        player2 = Player(name2, 'o', '#4A8FE7');
+    const createPlayers = (name1, name2, isHuman) => {
+        player1 = Player(name1, 'x', '#2EC4B6', false);
+        player2 = Player(name2, 'o', '#4A8FE7', isHuman? true: false);
         currentPlayer = player1;
     }
     const getCurrentPlayer = () => currentPlayer;
@@ -58,7 +58,7 @@ const displayController = (()=> {
     const gameAreaButtons = gameScreen.querySelectorAll('button');
 
     const initGame = () => {
-        const startButton = modal.querySelector('button');
+        const startButton = modal.querySelector('button#start');
         gameScreen.classList.add('inactive-screen');
         startButton.addEventListener('click', displayGame);
     }
@@ -66,9 +66,9 @@ const displayController = (()=> {
     const displayGame = (e) => {
         const formElement = document.querySelector('form'); 
         const data = new FormData(formElement);
-        const [playerName1, playerName2] = Array.from(data).map(entry => entry[1]);
+        const [playerName1, playerName2, isHuman] = Array.from(data).map(entry => entry[1]);
 
-        game.createPlayers(playerName1, playerName2);
+        game.createPlayers(playerName1, playerName2, isHuman);
         
         modal.classList.toggle('inactive-screen');
         gameScreen.classList.toggle('inactive-screen');
@@ -126,13 +126,17 @@ const displayController = (()=> {
             updateDisplay(index, winner);
 
             // AI
-            if (game.getCurrentPlayer().getMarker() === 'o' &&  winner === undefined) {
+            if (
+                game.getCurrentPlayer().getMarker() === 'o' && 
+                !game.getCurrentPlayer().isHuman &&
+                winner === undefined
+            ) {
                 let compIndex = ai.findBestMove(
                     game.board, 
                     game.getCurrentPlayer(),
                     game.getInactivePlayer(),
                 );
-                setTimeout(() => { gameAreaButtons[compIndex].click(); }, 500);
+                setTimeout((e) => { gameAreaButtons[compIndex].click(); }, 500);
             }
             
         } 

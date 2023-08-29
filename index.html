@@ -30,7 +30,13 @@
                     <input type="text" name="player-name2" id="player2" value="Player 2" maxlength="10" required>
                 </div>
             </div>
-            <button >Start Game</button>
+            <div class="form-row">
+                <label class="switch" for="game-mode">
+                    <input type="checkbox" name="game-mode" id="game-mode" value="player">
+                    <span>Multiplayer</span>
+                </label> 
+            </div>
+            <button id="start">Start Game</button>
         </form>
     </div>
     <div class="content" id="game-screen">
